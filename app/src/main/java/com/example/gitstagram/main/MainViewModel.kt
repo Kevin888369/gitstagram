@@ -47,7 +47,7 @@ class MainViewModel: ViewModel() {
         _searchText.value = text
     }
 
-    fun updateUsers(text: String) {
-        getGitUsers(text)
+    fun updateUsers() {
+        getGitUsers()
     }
 }
