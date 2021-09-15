@@ -29,11 +29,14 @@ class MainViewModel: ViewModel() {
         viewModelScope.launch {
             _status.value = GitApiStatus.LOADING
             try {
-                val response = GithubApi.retrofitService.getAllUsers("kevin")
-                _users.value = response.items
-                _response.value = "Success: ${response.totalCount} of user received"
-                _status.value = GitApiStatus.DONE
-                Log.d("response", _response.value!!)
+                if (!_searchText.value.isNullOrBlank()) {
+                    val response = GithubApi.retrofitService.getAllUsers(_searchText.value!!)
+                    _users.value = response.items
+                    _response.value = "Success: ${response.totalCount} of user received"
+                    _status.value = GitApiStatus.DONE
+                    Log.d("response", _response.value!!)
+                }
+                Log.d("searchText", "searchText: " + _searchText.value)
             } catch (e: Exception) {
                 _users.value = listOf()
                 _response.value = "Failed: ${e.message}"

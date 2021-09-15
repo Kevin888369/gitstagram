@@ -1,6 +1,8 @@
 package com.example.gitstagram.main
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,16 +24,25 @@ class MainFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val binding = FragmentMainBinding.inflate(inflater)
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.recyclerView.adapter = MainAdapter()
 
-        viewModel.setSearchText(binding.searchBar.text.toString())
+
+        binding.searchBar.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.setSearchText(binding.searchBar.text.toString())
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+        })
 
         viewModel.searchText.observe(viewLifecycleOwner, {
-            it?.let {
-                viewModel.updateUsers(it)
-            }
+            viewModel.updateUsers()
         })
 
         binding.recyclerView.layoutManager = GridLayoutManager(context, 1)
