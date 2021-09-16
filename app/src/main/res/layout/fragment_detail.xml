@@ -69,7 +69,7 @@
                 <TextView
                     tools:text="Medan Indonesia"
                     android:textColor="@color/white"
-                    android:text="@{viewModel.user.location ?? `Location Unknown`}"
+                    android:text="@{viewModel.user.location ?? `Location Unknoasdfwn`}"
                     android:drawableStart="@drawable/ic_baseline_location_on"
                     android:textAppearance="?attr/textAppearanceCaption"
                     android:textAlignment="center"
