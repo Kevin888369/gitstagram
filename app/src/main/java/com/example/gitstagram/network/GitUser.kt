@@ -22,10 +22,9 @@ data class GitUserDetail (
     @Json(name = "login") val loginName: String,
     val followers: Long,
     val following: Long,
-    val name: String,
     val type: String,
-    val location: String,
-    val company: String
+    val location: String?,
+    val company: String?
 ): Parcelable
 
 @Parcelize

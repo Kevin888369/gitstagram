@@ -10,13 +10,11 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(@Suppress("UNUSED_PARAMETER") gitUser: GitUser) : ViewModel() {
     private val _status = MutableLiveData<GitApiStatus>()
-    private val _response = MutableLiveData<String>()
     private val _user = MutableLiveData<GitUserDetail>()
     private val _selectedUser = MutableLiveData<GitUser>()
 
     val selectedUser: LiveData<GitUser> get() = _selectedUser
     val status: LiveData<GitApiStatus> get() = _status
-    val response: LiveData<String> get() = _response
     val user: LiveData<GitUserDetail> get() = _user
 
     init {
@@ -29,14 +27,10 @@ class DetailViewModel(@Suppress("UNUSED_PARAMETER") gitUser: GitUser) : ViewMode
             _status.value = GitApiStatus.LOADING
             try {
                 _user.value = GithubApi.retrofitService.getUserDetail(_selectedUser.value!!.loginName)
-                _response.value = "Success: ${_user.value!!.name} user detail received"
                 _status.value = GitApiStatus.DONE
-                Log.d("response", _response.value!!)
             } catch (e: Exception) {
                 _user.value = null
-                _response.value = "Failed: ${e.message}"
                 _status.value = GitApiStatus.ERROR
-                Log.d("response", _response.value!!)
             }
         }
     }

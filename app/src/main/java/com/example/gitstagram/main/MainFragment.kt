@@ -51,7 +51,14 @@ class MainFragment : Fragment() {
         })
 
         viewModel.searchText.observe(viewLifecycleOwner, {
-            viewModel.updateUsers()
+            if (!it.isNullOrBlank()) {
+                binding.searchHint.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
+                viewModel.updateUsers()
+            } else {
+                binding.searchHint.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.GONE
+            }
         })
 
         binding.recyclerView.layoutManager = GridLayoutManager(context, 1)

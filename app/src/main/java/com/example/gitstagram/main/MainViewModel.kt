@@ -12,13 +12,11 @@ import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
     private val _status = MutableLiveData<GitApiStatus>()
-    private val _response = MutableLiveData<String>()
     private val _users = MutableLiveData<List<GitUser>>()
     private val _searchText = MutableLiveData<String>()
     private val _navigateToSelectedUser = MutableLiveData<GitUser>()
 
     val status: LiveData<GitApiStatus> get() = _status
-    val response: LiveData<String> get() = _response
     val users: LiveData<List<GitUser>> get() = _users
     val searchText: LiveData<String> get() = _searchText
     val navigateToSelectedUser: LiveData<GitUser> get() = _navigateToSelectedUser
@@ -34,16 +32,12 @@ class MainViewModel: ViewModel() {
                 if (!_searchText.value.isNullOrBlank()) {
                     val response = GithubApi.retrofitService.getSearchUsers(_searchText.value!!)
                     _users.value = response.items
-                    _response.value = "Success: ${response.totalCount} of user received"
                     _status.value = GitApiStatus.DONE
-                    Log.d("response", _response.value!!)
+
                 }
-                Log.d("searchText", "searchText: " + _searchText.value)
             } catch (e: Exception) {
                 _users.value = listOf()
-                _response.value = "Failed: ${e.message}"
                 _status.value = GitApiStatus.ERROR
-                Log.d("response", _response.value!!)
             }
         }
     }
