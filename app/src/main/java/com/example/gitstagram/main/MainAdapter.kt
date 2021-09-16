@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gitstagram.databinding.ListItemBinding
 import com.example.gitstagram.network.GitUser
 
-class MainAdapter: ListAdapter<GitUser, MainAdapter.MainViewHolder>(DiffCallback) {
+class MainAdapter(private val onClickListener: OnClickListener): ListAdapter<GitUser, MainAdapter.MainViewHolder>(DiffCallback) {
     companion object DiffCallback: DiffUtil.ItemCallback<GitUser>() {
         override fun areItemsTheSame(oldItem: GitUser, newItem: GitUser): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: GitUser, newItem: GitUser): Boolean {
-            return oldItem == newItem
+            return oldItem.loginName == newItem.loginName
         }
 
     }
@@ -27,6 +27,10 @@ class MainAdapter: ListAdapter<GitUser, MainAdapter.MainViewHolder>(DiffCallback
         }
     }
 
+    class OnClickListener(private val clickListener: (GitUser) -> Unit) {
+        fun onClick(gitUser: GitUser) = clickListener(gitUser)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ListItemBinding.inflate(layoutInflater)
@@ -35,6 +39,9 @@ class MainAdapter: ListAdapter<GitUser, MainAdapter.MainViewHolder>(DiffCallback
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val gitUser = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(gitUser)
+        }
         holder.bind(gitUser)
     }
 

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gitstagram.R
 import com.example.gitstagram.databinding.FragmentMainBinding
@@ -27,8 +28,16 @@ class MainFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.recyclerView.adapter = MainAdapter()
+        binding.recyclerView.adapter = MainAdapter(MainAdapter.OnClickListener {
+            viewModel.displayUserDetail(it)
+        })
 
+        viewModel.navigateToSelectedUser.observe(viewLifecycleOwner, {
+            it?.let {
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToDetailFragment(it))
+                viewModel.doneDisplayUserDetail()
+            }
+        })
 
         binding.searchBar.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

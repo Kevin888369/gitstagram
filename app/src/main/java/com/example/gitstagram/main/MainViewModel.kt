@@ -15,11 +15,13 @@ class MainViewModel: ViewModel() {
     private val _response = MutableLiveData<String>()
     private val _users = MutableLiveData<List<GitUser>>()
     private val _searchText = MutableLiveData<String>()
+    private val _navigateToSelectedUser = MutableLiveData<GitUser>()
 
     val status: LiveData<GitApiStatus> get() = _status
     val response: LiveData<String> get() = _response
     val users: LiveData<List<GitUser>> get() = _users
     val searchText: LiveData<String> get() = _searchText
+    val navigateToSelectedUser: LiveData<GitUser> get() = _navigateToSelectedUser
 
     init {
         getGitUsers()
@@ -30,7 +32,7 @@ class MainViewModel: ViewModel() {
             _status.value = GitApiStatus.LOADING
             try {
                 if (!_searchText.value.isNullOrBlank()) {
-                    val response = GithubApi.retrofitService.getAllUsers(_searchText.value!!)
+                    val response = GithubApi.retrofitService.getSearchUsers(_searchText.value!!)
                     _users.value = response.items
                     _response.value = "Success: ${response.totalCount} of user received"
                     _status.value = GitApiStatus.DONE
@@ -52,5 +54,13 @@ class MainViewModel: ViewModel() {
 
     fun updateUsers() {
         getGitUsers()
+    }
+
+    fun displayUserDetail(gitUser: GitUser) {
+        _navigateToSelectedUser.value = gitUser
+    }
+
+    fun doneDisplayUserDetail() {
+        _navigateToSelectedUser.value = null
     }
 }
