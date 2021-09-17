@@ -17,6 +17,16 @@ class DetailViewModel(@Suppress("UNUSED_PARAMETER") gitUser: GitUser) : ViewMode
     val status: LiveData<GitApiStatus> get() = _status
     val user: LiveData<GitUserDetail> get() = _user
 
+    val followers = Transformations.map(user) {
+        it.followers.toString()
+    }!!
+    val following = Transformations.map(user) {
+        it.following.toString()
+    }!!
+    val repo = Transformations.map(user) {
+        it.repo.toString()
+    }!!
+
     init {
         _selectedUser.value = gitUser
         getGitUserDetail()

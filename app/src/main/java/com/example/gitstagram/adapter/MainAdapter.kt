@@ -1,4 +1,4 @@
-package com.example.gitstagram.main
+package com.example.gitstagram.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gitstagram.databinding.ListItemBinding
 import com.example.gitstagram.network.GitUser
 
-class MainAdapter(private val onClickListener: OnClickListener): ListAdapter<GitUser, MainAdapter.MainViewHolder>(DiffCallback) {
+class MainAdapter(private val onClickListener: OnClickListener): ListAdapter<GitUser, MainAdapter.MainViewHolder>(
+    DiffCallback
+) {
     companion object DiffCallback: DiffUtil.ItemCallback<GitUser>() {
         override fun areItemsTheSame(oldItem: GitUser, newItem: GitUser): Boolean {
             return oldItem.id == newItem.id

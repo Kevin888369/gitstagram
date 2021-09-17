@@ -16,10 +16,9 @@ data class GitUser (
 @Parcelize
 data class GitUserDetail (
     val id: Long,
-    @Json(name = "followers_url") val followersUrl: String,
-    @Json(name = "following_url") val followingUrl: String,
     @Json(name = "avatar_url") val avatarUrl: String,
     @Json(name = "login") val loginName: String,
+    @Json(name = "public_repos") val repo: Long,
     val followers: Long,
     val following: Long,
     val type: String,

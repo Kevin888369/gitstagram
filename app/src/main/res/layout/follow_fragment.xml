@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.gitstagram.follow.FollowViewModel" />
+    </data>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".follow.FollowFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_item_follow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.recyclerview.widget.RecyclerView>
+</layout>

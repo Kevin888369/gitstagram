@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.gitstagram.main.MainAdapter
+import com.example.gitstagram.adapter.MainAdapter
 import com.example.gitstagram.network.GitUser
 
 @BindingAdapter("imageUrl")

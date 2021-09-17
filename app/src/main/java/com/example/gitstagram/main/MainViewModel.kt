@@ -1,6 +1,5 @@
 package com.example.gitstagram.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,16 +9,16 @@ import com.example.gitstagram.network.GitUser
 import com.example.gitstagram.network.GithubApi
 import kotlinx.coroutines.launch
 
-class MainViewModel: ViewModel() {
+open class MainViewModel: ViewModel() {
     private val _status = MutableLiveData<GitApiStatus>()
     private val _users = MutableLiveData<List<GitUser>>()
     private val _searchText = MutableLiveData<String>()
-    private val _navigateToSelectedUser = MutableLiveData<GitUser>()
+    private val _navigateToSelectedUser = MutableLiveData<GitUser?>()
 
-    val status: LiveData<GitApiStatus> get() = _status
+    open val status: LiveData<GitApiStatus> get() = _status
     val users: LiveData<List<GitUser>> get() = _users
     val searchText: LiveData<String> get() = _searchText
-    val navigateToSelectedUser: LiveData<GitUser> get() = _navigateToSelectedUser
+    val navigateToSelectedUser: LiveData<GitUser?> get() = _navigateToSelectedUser
 
     init {
         getGitUsers()
