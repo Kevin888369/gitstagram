@@ -60,6 +60,8 @@ class MainFragment : Fragment() {
             }
         })
 
+
+
         binding.recyclerView.layoutManager = GridLayoutManager(context, 1)
         return binding.root
     }

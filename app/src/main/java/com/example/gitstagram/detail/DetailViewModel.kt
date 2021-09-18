@@ -39,7 +39,6 @@ class DetailViewModel(@Suppress("UNUSED_PARAMETER") gitUser: GitUser) : ViewMode
                 _user.value = GithubApi.retrofitService.getUserDetail(_selectedUser.value!!.loginName)
                 _status.value = GitApiStatus.DONE
             } catch (e: Exception) {
-                _user.value = null
                 _status.value = GitApiStatus.ERROR
             }
         }

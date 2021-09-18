@@ -1,6 +1,7 @@
 package com.example.gitstagram.apiClient
 
 import com.example.gitstagram.network.GitResponse
+import com.example.gitstagram.network.GitUser
 import com.example.gitstagram.network.GitUserDetail
 import retrofit2.http.*
 
@@ -12,8 +13,8 @@ interface GithubApiService {
     suspend fun getUserDetail(@Path("username") username: String): GitUserDetail
 
     @GET("users/{username}/followers")
-    suspend fun getUserFollowers(@Path("username") username: String): List<GitResponse>
+    suspend fun getUserFollowers(@Path("username") username: String): List<GitUser>
 
     @GET("users/{username}/following")
-    suspend fun getUserFollowing(@Path("username") username: String): List<GitResponse>
+    suspend fun getUserFollowing(@Path("username") username: String): List<GitUser>
 }

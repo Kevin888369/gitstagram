@@ -1,35 +1,47 @@
 package com.example.gitstagram.follow
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.gitstagram.main.MainViewModel
 import com.example.gitstagram.network.GitApiStatus
 import com.example.gitstagram.network.GitResponse
+import com.example.gitstagram.network.GitUser
 import com.example.gitstagram.network.GithubApi
 import kotlinx.coroutines.launch
 
 enum class FollowType(val string: String) {
     FOLLOWING("Following"),
-    FOLLOWERS("Followers"),
+    FOLLOWERS("Followers");
+
+    companion object {
+        fun from(findValue: String): FollowType = values().first { it.string == findValue }
+    }
 }
 
 class FollowViewModel : MainViewModel() {
     private val _followStatus = MutableLiveData<GitApiStatus>()
-    private val _follow = MutableLiveData<List<GitResponse>>()
+    private val _follow = MutableLiveData<List<GitUser>>()
+    private val _type = MutableLiveData<FollowType>()
     private val _selectedName = MutableLiveData<String>()
 
-    val followers: LiveData<List<GitResponse>> get() = _follow
+    val follow: LiveData<List<GitUser>> get() = _follow
     val followStatus: LiveData<GitApiStatus> get() = _followStatus
-    private lateinit var type: FollowType
+    val type: LiveData<FollowType> get() = _type
+
+    init {
+        getUserFollowers()
+    }
 
     private fun getUserFollowers() {
         viewModelScope.launch {
             _followStatus.value = GitApiStatus.LOADING
             try {
-                _follow.value = when (type) {
-                    FollowType.FOLLOWERS -> GithubApi.retrofitService.getUserFollowers(navigateToSelectedUser.value!!.loginName)
-                    FollowType.FOLLOWING -> GithubApi.retrofitService.getUserFollowing(navigateToSelectedUser.value!!.loginName)
+                _follow.value = when (type.value) {
+                    FollowType.FOLLOWERS -> GithubApi.retrofitService.getUserFollowers(_selectedName.value!!)
+                    FollowType.FOLLOWING -> GithubApi.retrofitService.getUserFollowing(_selectedName.value!!)
+                    else -> null
                 }
                 _followStatus.value = GitApiStatus.DONE
             } catch (e: Exception) {
@@ -39,7 +51,13 @@ class FollowViewModel : MainViewModel() {
         }
     }
 
-    fun setType(type: FollowType) {
-        this.type = type
+    fun setFollow(type: FollowType, username: String) {
+        _type.value = type
+        _selectedName.value = username
     }
+
+    fun updateData() {
+        getUserFollowers()
+    }
+
 }

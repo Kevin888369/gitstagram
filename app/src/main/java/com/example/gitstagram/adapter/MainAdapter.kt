@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.gitstagram.databinding.ListItemBinding
 import com.example.gitstagram.network.GitUser
 
-class MainAdapter(private val onClickListener: OnClickListener): ListAdapter<GitUser, MainAdapter.MainViewHolder>(
+class MainAdapter(private val onClickListener: OnClickListener): ListAdapter<GitUser, MainAdapter.MainViewHolder> (
     DiffCallback
 ) {
     companion object DiffCallback: DiffUtil.ItemCallback<GitUser>() {
