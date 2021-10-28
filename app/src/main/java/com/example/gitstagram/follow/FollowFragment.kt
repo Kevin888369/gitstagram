@@ -42,7 +42,6 @@ class FollowFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("onCreate", "OnCreate called! ngen")
         arguments?.let {
             username = it.getString(USERNAME).toString()
             type = it.getString(TYPE).toString()

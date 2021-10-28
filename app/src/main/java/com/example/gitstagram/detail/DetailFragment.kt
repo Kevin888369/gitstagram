@@ -25,7 +25,6 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         val gitUser = DetailFragmentArgs.fromBundle(requireArguments()).selectedUser

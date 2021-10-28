@@ -1,17 +1,24 @@
 package com.example.gitstagram.main
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gitstagram.adapter.MainAdapter
 import com.example.gitstagram.databinding.FragmentMainBinding
+import android.app.Activity
+import com.example.gitstagram.R
+
 
 class MainFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
@@ -38,18 +45,25 @@ class MainFragment : Fragment() {
             }
         })
 
-        binding.searchBar.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                viewModel.setSearchText(binding.searchBar.text.toString())
+        binding.searchBar.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(p0: View?, p1: Int, p2: KeyEvent?): Boolean {
+                if (p2?.action == KeyEvent.ACTION_DOWN) {
+                    when (p1) {
+                        KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER -> {
+                            viewModel.setSearchText(binding.searchBar.text.toString())
+                            context?.let { hideKeyboardFrom(it, binding.searchBar) }
+                            return true
+                        }
+                        else -> {
+                        }
+                    }
+                }
+                return false
             }
-
-            override fun afterTextChanged(p0: Editable?) {}
-
         })
 
         viewModel.searchText.observe(viewLifecycleOwner, {
+            binding.searchNone.visibility = View.GONE
             if (!it.isNullOrBlank()) {
                 binding.searchHint.visibility = View.GONE
                 binding.recyclerView.visibility = View.VISIBLE
@@ -61,8 +75,25 @@ class MainFragment : Fragment() {
         })
 
 
+        viewModel.users.observe(viewLifecycleOwner, {
+            binding.searchHint.visibility = View.GONE
+            if (it.isEmpty()) {
+                binding.searchNone.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.GONE
+            } else {
+                binding.searchNone.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
+            }
+        })
+
+
 
         binding.recyclerView.layoutManager = GridLayoutManager(context, 1)
         return binding.root
+    }
+
+    fun hideKeyboardFrom(context: Context, view: View) {
+        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

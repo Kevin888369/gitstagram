@@ -7,4 +7,6 @@
     <string name="followers">Followers</string>
     <string name="following">Following</string>
     <string name="repository">Repository</string>
+    <string name="search_for_name">Search For Name</string>
+    <string name="no_result">No Result</string>
 </resources>

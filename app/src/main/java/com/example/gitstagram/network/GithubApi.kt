@@ -4,7 +4,6 @@ import com.example.gitstagram.BuildConfig
 import com.example.gitstagram.apiClient.GithubApiService
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
