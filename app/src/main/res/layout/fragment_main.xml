@@ -23,6 +23,7 @@
             android:layout_marginTop="@dimen/default_spacing"
             app:endIconMode="clear_text"
             app:startIconDrawable="@drawable/ic_search"
+            android:theme="@style/MyTextInputLayout_overlay"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintEnd_toStartOf="@+id/end_guideline"
             app:layout_constraintStart_toStartOf="@+id/start_guideline"
