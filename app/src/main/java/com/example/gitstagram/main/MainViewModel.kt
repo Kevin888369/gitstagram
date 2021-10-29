@@ -26,8 +26,8 @@ open class MainViewModel: ViewModel() {
 
     private fun getGitUsers() {
         viewModelScope.launch {
-            _status.value = GitApiStatus.LOADING
             try {
+                _status.value = GitApiStatus.LOADING
                 if (!_searchText.value.isNullOrBlank()) {
                     val response = GithubApi.retrofitService.getSearchUsers(_searchText.value!!)
                     _users.value = response.items

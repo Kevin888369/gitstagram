@@ -1,14 +1,11 @@
 package com.example.gitstagram.main
 
+import android.R.attr
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +14,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gitstagram.adapter.MainAdapter
 import com.example.gitstagram.databinding.FragmentMainBinding
 import android.app.Activity
+import android.view.*
+import android.widget.Toast
 import com.example.gitstagram.R
+import com.example.gitstagram.network.GitApiStatus
+import android.R.attr.data
+
+
+
 
 
 class MainFragment : Fragment() {
@@ -31,7 +35,6 @@ class MainFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val binding = FragmentMainBinding.inflate(inflater)
-
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.recyclerView.adapter = MainAdapter(MainAdapter.OnClickListener {
@@ -61,7 +64,6 @@ class MainFragment : Fragment() {
                 return false
             }
         })
-
         viewModel.searchText.observe(viewLifecycleOwner, {
             binding.searchNone.visibility = View.GONE
             if (!it.isNullOrBlank()) {
@@ -83,6 +85,27 @@ class MainFragment : Fragment() {
             } else {
                 binding.searchNone.visibility = View.GONE
                 binding.recyclerView.visibility = View.VISIBLE
+            }
+        })
+
+        viewModel.status.observe(viewLifecycleOwner, {
+            when(it) {
+                GitApiStatus.LOADING -> {
+                    binding.loading.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
+                }
+                GitApiStatus.DONE -> {
+                    binding.loading.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
+                }
+                GitApiStatus.ERROR -> {
+                    binding.loading.visibility = View.GONE
+                    binding.recyclerView.visibility = View.GONE
+                    Toast.makeText(
+                        activity, "Something Wrong",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         })
 
