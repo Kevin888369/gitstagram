@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gitstagram.R
@@ -15,6 +16,7 @@ import com.example.gitstagram.databinding.FollowFragmentBinding
 import com.example.gitstagram.databinding.FragmentDetailBinding
 import com.example.gitstagram.detail.DetailFragmentDirections
 import com.example.gitstagram.main.MainFragmentDirections
+import com.example.gitstagram.network.GitApiStatus
 
 private const val USERNAME = "username"
 private const val TYPE = "type"
@@ -67,10 +69,31 @@ class FollowFragment : Fragment() {
             }
         })
 
-        viewModel.type.observe(viewLifecycleOwner, {
-            viewModel.updateData()
-        })
-
+        viewModel.followResult.observe(viewLifecycleOwner) {
+            it.let { resource ->
+                when (resource.status) {
+                    GitApiStatus.LOADING -> {
+                        binding.listItemFollow.visibility = View.GONE
+                        binding.loadingFollow.visibility = View.VISIBLE
+                    }
+                    GitApiStatus.DONE -> {
+                        if (it.data.isNullOrEmpty()) {
+                            binding.listItemFollow.visibility = View.GONE
+                            binding.loadingFollow.visibility = View.GONE
+                        } else {
+                            binding.listItemFollow.visibility = View.VISIBLE
+                            binding.loadingFollow.visibility = View.GONE
+                            viewModel.setData(it.data)
+                        }
+                    }
+                    GitApiStatus.ERROR -> {
+                        binding.listItemFollow.visibility = View.GONE
+                        binding.loadingFollow.visibility = View.GONE
+                        Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
         binding.listItemFollow.layoutManager = GridLayoutManager(context, 1)
         return binding.root
     }

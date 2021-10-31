@@ -1,13 +1,9 @@
 package com.example.gitstagram.main
 
-import android.R.attr
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,12 +12,7 @@ import com.example.gitstagram.databinding.FragmentMainBinding
 import android.app.Activity
 import android.view.*
 import android.widget.Toast
-import com.example.gitstagram.R
 import com.example.gitstagram.network.GitApiStatus
-import android.R.attr.data
-
-
-
 
 
 class MainFragment : Fragment() {
@@ -64,51 +55,40 @@ class MainFragment : Fragment() {
                 return false
             }
         })
-        viewModel.searchText.observe(viewLifecycleOwner, {
-            binding.searchNone.visibility = View.GONE
-            if (!it.isNullOrBlank()) {
-                binding.searchHint.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
-                viewModel.updateUsers()
-            } else {
-                binding.searchHint.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-            }
-        })
 
-
-        viewModel.users.observe(viewLifecycleOwner, {
-            binding.searchHint.visibility = View.GONE
-            if (it.isEmpty()) {
-                binding.searchNone.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
-            } else {
-                binding.searchNone.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
-            }
-        })
-
-        viewModel.status.observe(viewLifecycleOwner, {
-            when(it) {
-                GitApiStatus.LOADING -> {
-                    binding.loading.visibility = View.VISIBLE
-                    binding.recyclerView.visibility = View.GONE
-                }
-                GitApiStatus.DONE -> {
-                    binding.loading.visibility = View.GONE
-                    binding.recyclerView.visibility = View.VISIBLE
-                }
-                GitApiStatus.ERROR -> {
-                    binding.loading.visibility = View.GONE
-                    binding.recyclerView.visibility = View.GONE
-                    Toast.makeText(
-                        activity, "Something Wrong",
-                        Toast.LENGTH_LONG
-                    ).show()
+        viewModel.searchResult.observe(viewLifecycleOwner, {
+            it.let { resource ->
+                when(resource.status) {
+                    GitApiStatus.LOADING -> {
+                        binding.searchHint.visibility = View.GONE
+                        binding.searchNone.visibility = View.GONE
+                        binding.recyclerView.visibility = View.GONE
+                        binding.loading.visibility = View.VISIBLE
+                    }
+                    GitApiStatus.DONE -> {
+                        if (it.data.isNullOrEmpty()) {
+                            binding.searchHint.visibility = View.GONE
+                            binding.searchNone.visibility = View.VISIBLE
+                            binding.recyclerView.visibility = View.GONE
+                            binding.loading.visibility = View.GONE
+                        } else {
+                            binding.searchHint.visibility = View.GONE
+                            binding.searchNone.visibility = View.GONE
+                            binding.recyclerView.visibility = View.VISIBLE
+                            binding.loading.visibility = View.GONE
+                            viewModel.setUsers(it.data)
+                        }
+                    }
+                    GitApiStatus.ERROR -> {
+                        binding.searchHint.visibility = View.GONE
+                        binding.searchNone.visibility = View.VISIBLE
+                        binding.recyclerView.visibility = View.GONE
+                        binding.loading.visibility = View.GONE
+                        Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         })
-
 
 
         binding.recyclerView.layoutManager = GridLayoutManager(context, 1)

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import com.example.gitstagram.R
 import com.example.gitstagram.databinding.FragmentDetailBinding
 import com.example.gitstagram.follow.FollowFragment
 import com.example.gitstagram.follow.FollowType
+import com.example.gitstagram.network.GitApiStatus
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailFragment : Fragment() {
@@ -36,6 +38,23 @@ class DetailFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             tab.text = listType[position].string
         }.attach()
+        viewModel.detailResult.observe(viewLifecycleOwner, {
+            it.let { resource ->
+                when(resource.status) {
+                    GitApiStatus.LOADING -> {
+                        binding.loadingDetail.visibility = View.VISIBLE
+                    }
+                    GitApiStatus.DONE -> {
+                        binding.loadingDetail.visibility = View.GONE
+                        it.data?.let { datum -> viewModel.setUser(datum) }
+                    }
+                    GitApiStatus.ERROR -> {
+                        binding.loadingDetail.visibility = View.GONE
+                        Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        })
         return binding.root
     }
 
