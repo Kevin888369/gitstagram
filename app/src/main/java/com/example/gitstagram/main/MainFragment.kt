@@ -1,17 +1,20 @@
 package com.example.gitstagram.main
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gitstagram.adapter.MainAdapter
 import com.example.gitstagram.databinding.FragmentMainBinding
-import android.app.Activity
-import android.view.*
-import android.widget.Toast
 import com.example.gitstagram.network.GitApiStatus
 
 

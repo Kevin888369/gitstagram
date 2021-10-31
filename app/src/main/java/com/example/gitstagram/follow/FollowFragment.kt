@@ -1,21 +1,17 @@
 package com.example.gitstagram.follow
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.gitstagram.R
 import com.example.gitstagram.adapter.MainAdapter
 import com.example.gitstagram.databinding.FollowFragmentBinding
-import com.example.gitstagram.databinding.FragmentDetailBinding
 import com.example.gitstagram.detail.DetailFragmentDirections
-import com.example.gitstagram.main.MainFragmentDirections
 import com.example.gitstagram.network.GitApiStatus
 
 private const val USERNAME = "username"

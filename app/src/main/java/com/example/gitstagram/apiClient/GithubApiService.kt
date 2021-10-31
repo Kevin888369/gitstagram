@@ -3,7 +3,9 @@ package com.example.gitstagram.apiClient
 import com.example.gitstagram.network.GitResponse
 import com.example.gitstagram.network.GitUser
 import com.example.gitstagram.network.GitUserDetail
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface GithubApiService {
     @GET("search/users")

@@ -1,10 +1,13 @@
 package com.example.gitstagram.detail
 
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.example.gitstagram.Resource
-import com.example.gitstagram.network.*
-import kotlinx.coroutines.launch
+import com.example.gitstagram.network.GitUser
+import com.example.gitstagram.network.GitUserDetail
+import com.example.gitstagram.network.UserRetrofit
 
 class DetailViewModel(@Suppress("UNUSED_PARAMETER") gitUser: GitUser) : ViewModel() {
     private val _user = MutableLiveData<GitUserDetail>()

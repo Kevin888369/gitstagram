@@ -1,6 +1,5 @@
 package com.example.gitstagram.detail
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.gitstagram.network.GitUser

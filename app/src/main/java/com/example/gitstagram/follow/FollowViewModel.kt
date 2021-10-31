@@ -1,14 +1,12 @@
 package com.example.gitstagram.follow
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.viewModelScope
 import com.example.gitstagram.Resource
 import com.example.gitstagram.main.MainViewModel
-import com.example.gitstagram.network.*
-import kotlinx.coroutines.launch
+import com.example.gitstagram.network.GitUser
+import com.example.gitstagram.network.UserRetrofit
 
 enum class FollowType(val string: String) {
     FOLLOWING("Following"),

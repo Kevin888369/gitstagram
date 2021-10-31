@@ -1,12 +1,12 @@
 package com.example.gitstagram.main
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.example.gitstagram.Resource
-import com.example.gitstagram.network.GitApiStatus
 import com.example.gitstagram.network.GitUser
-import com.example.gitstagram.network.GithubApi
 import com.example.gitstagram.network.UserRetrofit
-import kotlinx.coroutines.launch
 
 open class MainViewModel: ViewModel() {
     private val _searchText = MutableLiveData<String>()
