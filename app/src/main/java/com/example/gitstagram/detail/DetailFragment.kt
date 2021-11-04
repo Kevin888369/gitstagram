@@ -8,25 +8,28 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.gitstagram.R
 import com.example.gitstagram.databinding.FragmentDetailBinding
 import com.example.gitstagram.follow.FollowFragment
 import com.example.gitstagram.follow.FollowType
 import com.example.gitstagram.network.GitApiStatus
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlin.properties.Delegates
 
 class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private val listType = arrayListOf(FollowType.FOLLOWERS, FollowType.FOLLOWING)
+    private var isFavorite by Delegates.notNull<Boolean>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         val gitUser = DetailFragmentArgs.fromBundle(requireArguments()).selectedUser
-        val viewModelFactory = DetailViewModelFactory(gitUser)
+        val viewModelFactory = DetailViewModelFactory.getInstance(requireActivity().application, gitUser)
         val viewModel = ViewModelProvider(this, viewModelFactory).get(DetailViewModel::class.java)
         binding.viewModel = viewModel
         binding.pager.adapter =
@@ -51,6 +54,22 @@ class DetailFragment : Fragment() {
                 }
             }
         })
+
+        viewModel.getUsers(gitUser.id).observe(viewLifecycleOwner, {
+            isFavorite = it != null
+            binding.floatingActionButtonFavorite.setImageResource(if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_unfavorite)
+        })
+        binding.floatingActionButtonFavorite.setOnClickListener {
+            if (isFavorite) {
+                viewModel.deleteUser(gitUser.id)
+                binding.floatingActionButtonFavorite.setImageResource(R.drawable.ic_unfavorite)
+            } else {
+                viewModel.insertUser(gitUser)
+                binding.floatingActionButtonFavorite.setImageResource(R.drawable.ic_favorite)
+            }
+        }
+
+
         return binding.root
     }
 

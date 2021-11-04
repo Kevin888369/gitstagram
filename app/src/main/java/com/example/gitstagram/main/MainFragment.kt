@@ -2,17 +2,19 @@ package com.example.gitstagram.main
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.gitstagram.R
 import com.example.gitstagram.adapter.MainAdapter
 import com.example.gitstagram.databinding.FragmentMainBinding
 import com.example.gitstagram.network.GitApiStatus
@@ -22,12 +24,16 @@ class MainFragment : Fragment() {
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        sharedPref = requireActivity().getSharedPreferences(getString(R.string.dark_theme), Context.MODE_PRIVATE)!!
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            requireActivity().setTheme(R.style.NightTheme_Gitstagram) else requireActivity().setTheme(R.style.Theme_Gitstagram)
         val binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -92,10 +98,31 @@ class MainFragment : Fragment() {
                 }
             }
         })
-
-
         binding.recyclerView.layoutManager = GridLayoutManager(context, 1)
+        setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.option_menu, menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.action_favorite) {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToFavoriteFragment())
+        }
+        if(item.itemId == R.id.action_change_theme) {
+            Log.d("timber", sharedPref.getBoolean(getString(R.string.dark_theme), false).toString())
+            val editor = sharedPref.edit()
+            val isDarkTheme = sharedPref.getBoolean(getString(R.string.dark_theme), false)
+            editor.putBoolean(getString(R.string.dark_theme), !isDarkTheme)
+            editor.apply()
+            if (isDarkTheme)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            else
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+        return true
     }
 
     fun hideKeyboardFrom(context: Context, view: View) {

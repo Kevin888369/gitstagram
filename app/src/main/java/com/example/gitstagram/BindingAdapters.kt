@@ -1,5 +1,6 @@
 package com.example.gitstagram
 
+import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ fun setImage(imageView: ImageView, imageUrl: String?) {
 @BindingAdapter("listItem")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<GitUser>?) {
     data?.let {
+        Log.d("masok", "masok")
         val adapter = recyclerView.adapter as MainAdapter
         adapter.submitList(data)
     }

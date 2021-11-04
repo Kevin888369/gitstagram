@@ -6,4 +6,7 @@
     <string name="repository">Repository</string>
     <string name="search_for_name">Search For Name</string>
     <string name="no_result">No Result</string>
+    <string name="favorite">Favorite</string>
+    <string name="no_favorite">There\'s no favorite</string>
+    <string name="dark_theme">dark theme</string>
 </resources>

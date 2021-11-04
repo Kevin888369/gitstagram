@@ -10,201 +10,205 @@
         <import type="android.view.View"/>
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
-        tools:context=".detail.DetailFragment"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/favorite"
+            app:srcCompat="@drawable/ic_unfavorite"/>
+        <LinearLayout
+            android:orientation="vertical"
+            tools:context=".detail.DetailFragment"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/primaryColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/default_spacing"
-                android:layout_marginTop="@dimen/default_spacing"
-                android:background="@drawable/rounded_border"
-                android:drawablePadding="2dp"
-                android:text="@{viewModel.user.location ?? `Location Unknown`}"
-                android:textAlignment="center"
-                android:textAppearance="?attr/textAppearanceCaption"
-                android:textColor="@color/secondaryTextColor"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Medan Indonesia"
-                app:drawableStartCompat="@drawable/ic_baseline_location_on"
-                app:drawableTint="@color/secondaryTextColor" />
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayoutFollowers"
+                android:layout_weight="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_image"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/half_default_spacing"
-                    android:layout_marginBottom="@dimen/half_default_spacing"
-                    app:civ_border_color="@color/secondaryColor"
-                    app:civ_border_width="10dp"
-                    app:imageUrl="@{viewModel.user.avatarUrl}"
-                    tools:src="@tools:sample/avatars" />
-
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.user.loginName}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/default_spacing"
+                    android:layout_marginTop="@dimen/default_spacing"
+                    android:background="@drawable/rounded_border"
+                    android:drawablePadding="2dp"
+                    android:text="@{viewModel.user.location ?? `Location Unknown`}"
                     android:textAlignment="center"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="@color/primaryTextColor"
-                    tools:text="Name" />
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    android:textColor="@color/secondaryTextColor"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Medan Indonesia"
+                    app:drawableStartCompat="@drawable/ic_baseline_location_on"
+                    app:drawableTint="@color/secondaryTextColor" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.user.company ?? `No Company`}"
-                    android:textAlignment="center"
-                    android:textAppearance="?attr/textAppearanceSubtitle2"
-                    android:textColor="@color/primaryTextColor"
-                    tools:text="Company" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayoutRepo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/linearLayoutFollowers"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-                <TextView
+                <LinearLayout
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/repository"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/primaryTextColor" />
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayoutFollowers"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/half_default_spacing"
+                        android:layout_marginBottom="@dimen/half_default_spacing"
+                        app:civ_border_color="@color/secondaryColor"
+                        app:civ_border_width="10dp"
+                        app:imageUrl="@{viewModel.user.avatarUrl}"
+                        tools:src="@tools:sample/avatars" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.user.loginName}"
+                        android:textAlignment="center"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        tools:text="Name" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.user.company ?? `No Company`}"
+                        android:textAlignment="center"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        tools:text="Company" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutRepo"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.repo}"
-                    android:textColor="@color/primaryTextColor"
-                    tools:text="100" />
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/linearLayoutFollowers"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-            <LinearLayout
-                android:id="@+id/linearLayoutFollowers"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/linearLayoutFollowing"
-                app:layout_constraintStart_toEndOf="@+id/linearLayoutRepo"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/repository"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.repo}"
+                        tools:text="100" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutFollowers"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/followers"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/primaryTextColor" />
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/linearLayoutFollowing"
+                    app:layout_constraintStart_toEndOf="@+id/linearLayoutRepo"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/followers"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.followers}"
+                        tools:text="100" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutFollowing"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.followers}"
-                    android:textColor="@color/primaryTextColor"
-                    tools:text="100" />
-            </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/linearLayoutFollowers"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-            <LinearLayout
-                android:id="@+id/linearLayoutFollowing"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/following"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.following}"
+                        tools:text="100" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/loading_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/linearLayoutFollowers"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/following"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textColor="@color/primaryTextColor" />
+                <ProgressBar
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal|center_vertical" />
+            </FrameLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.following}"
-                    android:textColor="@color/primaryTextColor"
-                    tools:text="100" />
-            </LinearLayout>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/secondaryColor"
+                app:tabIconTint="@color/secondaryLightColor"
+                app:tabIndicatorColor="@color/secondaryTextColor"
+                app:tabTextColor="@color/primaryDarkColor"
+                app:tabSelectedTextColor="@color/white"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tab_layout">
 
-        <FrameLayout
-            android:id="@+id/loading_detail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/primaryColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <ProgressBar
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
-        </FrameLayout>
+            </androidx.viewpager2.widget.ViewPager2>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:tabIconTint="@color/secondaryLightColor"
-            app:tabIndicatorColor="@color/secondaryDarkColor"
-            app:tabTextColor="@color/cardview_dark_background"
-            app:tabSelectedTextColor="@color/black"/>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tab_layout">
-
-        </androidx.viewpager2.widget.ViewPager2>
-
-    </LinearLayout>
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
