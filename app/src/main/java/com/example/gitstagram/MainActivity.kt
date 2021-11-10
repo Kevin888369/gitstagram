@@ -3,6 +3,7 @@ package com.example.gitstagram
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra(DetailViewModel.SELECTED_USER, it)
             startActivity(intent)
-            viewModel.doneDisplayUserDetail()
         })
 
         binding.recyclerView.layoutManager = GridLayoutManager(this, 1)

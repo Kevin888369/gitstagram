@@ -1,5 +1,6 @@
 package com.example.gitstagram.follow
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,7 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gitstagram.adapter.MainAdapter
 import com.example.gitstagram.databinding.FollowFragmentBinding
-import com.example.gitstagram.detail.DetailFragmentDirections
+import com.example.gitstagram.detail.DetailActivity
+import com.example.gitstagram.detail.DetailViewModel
 
 private const val USERNAME = "username"
 private const val TYPE = "type"
@@ -57,10 +59,9 @@ class FollowFragment : Fragment() {
         })
 
         viewModel.navigateToSelectedUser.observe(viewLifecycleOwner, {
-            it?.let {
-                findNavController().navigate(DetailFragmentDirections.actionDetailFragmentSelf(it))
-                viewModel.doneDisplayUserDetail()
-            }
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra(DetailViewModel.SELECTED_USER, it)
+            startActivity(intent)
         })
 
         viewModel.type.observe(viewLifecycleOwner, {

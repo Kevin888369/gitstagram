@@ -38,8 +38,4 @@ open class MainViewModel: ViewModel() {
     fun displayUserDetail(gitUser: GitUser) {
         _navigateToSelectedUser.value = gitUser
     }
-
-    fun doneDisplayUserDetail() {
-        _navigateToSelectedUser.value = null
-    }
 }
