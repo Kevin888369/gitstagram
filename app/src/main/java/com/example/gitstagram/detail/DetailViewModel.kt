@@ -43,4 +43,8 @@ class DetailViewModel(@Suppress("UNUSED_PARAMETER") gitUser: GitUser) : ViewMode
             }
         }
     }
+
+    companion object {
+        const val SELECTED_USER = "selected-user"
+    }
 }
