@@ -20,6 +20,7 @@ data class GitUserDetail (
     @Json(name = "login") val loginName: String,
     @Json(name = "public_repos") val repo: Long,
     val followers: Long,
+    val name: String,
     val following: Long,
     val type: String,
     val location: String?,
